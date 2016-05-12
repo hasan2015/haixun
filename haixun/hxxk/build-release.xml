@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="hxxk" basedir="." default="deploy">	
+	<property file="resources/config.properties" />
+	
+	<property name="project.name" value="${ant.project.name}" />
+	<property name="build.dir" value="e:/temp/build" />
+	<property name="tomcat.dir" value="D:/apache-tomcat-7.0.56" />
+	<property name="deploy.dir" value="${tomcat.dir}/webapps/${project.name}" />
+	<property name="release.dir" value="E:/mameng/hasan01/release" />
+	<property name="classes.dir" value="${deploy.dir}/WEB-INF/classes" />
+
+	<target name="deploy" depends="init">
+		<!--1-->
+		<copydir src="WebRoot" dest="${deploy.dir}" />
+		<!--2-->
+		<antcall target="m.config" />
+		<!--3-->
+		<antcall target="war" />
+		<!--4-->
+		<antcall target="release" />		
+	</target>
+	<!--1-->
+	<target name="init">
+		<echo>create build folder..</echo>
+		<mkdir dir="${build.dir}"/>
+		<echo>clear build folder..</echo>
+		<delete includeemptydirs="true">
+			<fileset dir="${build.dir}" includes="**/*" />
+		</delete>
+		<echo>clear wabapp folder..</echo>
+		<delete includeemptydirs="true">
+			<fileset dir="${tomcat.dir}/webapps" includes="**/*" />
+		</delete>
+	</target>
+	<!--2-->
+	<target name="m.config">
+		<echo>replace ip..</echo>
+		<replace file="${classes.dir}/config.properties" token="120.26.120.110" value="localhost" />
+		<echo>replace logfile...</echo>
+		<replace file="${classes.dir}/log4j.properties" token="c:/hx/xk/logs/xk.log" value="/tmp/hx/xk/logs/xk.log" />
+	</target>
+	<!--3-->
+	<target name="war">
+		<war destfile="${build.dir}/hxxk.war" webxml="${deploy.dir}/WEB-INF/web.xml">
+			<classes dir="${classes.dir}" />
+			<fileset dir="${deploy.dir}/" excludes="WEB-INF/**" />
+			<lib dir="${deploy.dir}/WEB-INF/lib" />
+		</war>
+	</target>
+	<target name="release">
+		<echo>create version folder..</echo>
+		<mkdir dir="${release.dir}/${xkserver.version}"/>
+		<echo>bak old war...</echo> 
+		<copydir src="${release.dir}/${xkserver.version}" dest="${release.dir}/bak"/>
+		<echo>release new war...</echo>
+		<copyfile src="${build.dir}/hxxk.war" dest="${release.dir}/${xkserver.version}/hxxk.war"/>
+		
+	</target>
+</project>

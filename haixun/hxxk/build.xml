@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="hxxk" basedir="." default="deploy">
+	<property name="project.name" value="${ant.project.name}" />   
+	<property name="tomcat.dir" value="D:/apache-tomcat-7.0.56" />
+	<property name="deploy.dir" value="${tomcat.dir}/webapps/${project.name}" /> 
+	 
+	<target name="init">
+		<delete dir="${log.dir}" /> 
+		<delete  includeemptydirs="true">
+			<fileset dir="${tomcat.dir}/webapps" includes="**/*"/>
+		</delete>
+
+	</target>
+	<target name="deploy" depends="init">
+		<copydir src="WebRoot" dest="${deploy.dir}" />
+    
+	</target> 
+
+</project>

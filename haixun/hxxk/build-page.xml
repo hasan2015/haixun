@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="hxxk" basedir="." default="deploy">
+	<property name="project.name" value="${ant.project.name}" />   
+	<property name="tomcat.dir" value="D:/apache-tomcat-7.0.56" />
+	<property name="deploy.dir" value="${tomcat.dir}/webapps/${project.name}" /> 
+	  
+	<target name="deploy" >
+		<copydir src="WebRoot/page" dest="${deploy.dir}/page" />
+		<copydir src="WebRoot/js" dest="${deploy.dir}/js" />
+		<copydir src="WebRoot/css" dest="${deploy.dir}/css" />
+    
+	</target> 
+
+</project>

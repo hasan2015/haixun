@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- 自动刷新可报班级 -->
+	<bean id="JobBean-autorefeshOpenGrade"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="xkJob"></property>
+		<property name="targetMethod" value="refeshOpenGrade"></property>
+	</bean>
+	<bean id="CronTriggerBean-autorefeshOpenGrade" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="JobBean-autorefeshOpenGrade" />
+		<property name="cronExpression"
+			value="${quartz.interval.autorefreshopengrade}" />
+	</bean>
+  <!-- 自动刷新已报班级 列表-->
+	<bean id="JobBean-autorefeshMygrade"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="xkJob"></property>
+		<property name="targetMethod" value="refreshMygradeAndGradeinfo"></property>
+	</bean>
+	<bean id="CronTriggerBean-autorefeshMygrade" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="JobBean-autorefeshMygrade" />
+		<property name="cronExpression"
+			value="${quartz.interval.autorefreshmygrade}" />
+	</bean> 
+	<!-- 设置调度 -->
+	<bean id="ddsScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- -->
+				<ref bean="CronTriggerBean-autorefeshOpenGrade" />  
+				<ref bean="CronTriggerBean-autorefeshMygrade" /> 
+
+			</list>
+		</property>
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.threadPool.threadCount">5</prop>
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+			</props>
+		</property>
+	</bean>
+</beans> 
