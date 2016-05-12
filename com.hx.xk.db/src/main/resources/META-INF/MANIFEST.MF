@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: com.hx.xk.db
+Bundle-Version: 1.0.0
+Bundle-Name: hxxk.db
+Bundle-ManifestVersion: 2
+Bundle-Vendor: SpringSource
+Import-Package: javax.sql;version="0",org.apache.commons.dbcp;version=
+ "[1.2.2.osgi, 1.2.2.osgi]",org.h2;version="[1.0.71, 1.0.71]"
+Tool: Bundlor 1.1.2.RELEASE
+
